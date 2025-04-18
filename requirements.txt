@@ -1,0 +1,6 @@
+art
+requests
+google-cloud-storage
+colorama
+glob2
+tqdm
